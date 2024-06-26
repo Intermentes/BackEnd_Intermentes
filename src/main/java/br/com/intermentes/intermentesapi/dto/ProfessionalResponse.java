@@ -1,64 +1,36 @@
 package br.com.intermentes.intermentesapi.dto;
 
 import br.com.intermentes.intermentesapi.model.ProfessionalModel;
-import br.com.intermentes.intermentesapi.model.UserModel;
-import br.com.intermentes.intermentesapi.model.enums.Ethnicity;
-import br.com.intermentes.intermentesapi.model.enums.Gender;
-import br.com.intermentes.intermentesapi.model.enums.Roles;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
-import lombok.*;
+import lombok.Value;
 
-import java.time.LocalDate;
-import java.util.LinkedHashSet;
+import java.io.Serializable;
 import java.util.Set;
+import java.util.stream.Collectors;
 
+@Value
+public class ProfessionalResponse implements Serializable {
+    Long id;
+    UserResponse user;
+    String crp;
+    Set<AppointmentResponse> appointments;
 
-@Getter
-@Setter
-@Data
-@NoArgsConstructor
+    public ProfessionalResponse(ProfessionalModel professionalModel, boolean loadAppointments) {
+        this.id = professionalModel.getId();
+        this.user = new UserResponse(professionalModel.getUser());
+        this.crp = professionalModel.getCrp();
+        if(loadAppointments) {
+            this.appointments = professionalModel.getAppointmentModels().stream().map(AppointmentResponse::new).collect(
+                    Collectors.toSet());
+        }
+        else{
+            this.appointments = Set.of();
+        }
+    }
 
-public class ProfessionalResponse {
-
-
-    @Column(name = "email",nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "password", nullable = false)
-    private String password;
-
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    @Column(name = "birthDate" )
-    private LocalDate birthDate;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false)
-    private Gender gender;
-
-    @Column(name = "ethnicity")
-    private Ethnicity ethnicity;
-
-
-// TODO: Implementar Imagem - Foto de Perfil
-
-    @Column(name = "phone", nullable = false, length = 11)
-    private String phone;
-
-    @Column(name = "cpf", nullable = false, length = 11)
-    private String cpf;
-
-    @Column(name = "crp", nullable = false, length = 10)
-    private String crp;
-
-
-
+    public ProfessionalResponse(Long id, UserResponse userResponse, String crp) {
+        this.id = id;
+        this.user = userResponse;
+        this.crp = crp;
+        this.appointments = Set.of();
+    }
 }
-
-
-
-
-
-
-
-

@@ -3,6 +3,9 @@ package br.com.intermentes.intermentesapi.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "patient")
 @AllArgsConstructor
@@ -21,5 +24,7 @@ public class PatientModel {
     @JoinColumn(name = "user_id")
     private UserModel user;
 
+    @OneToMany(mappedBy = "patient")
+    private Set<AppointmentModel> appointmentModels = new LinkedHashSet<>();
 
 }

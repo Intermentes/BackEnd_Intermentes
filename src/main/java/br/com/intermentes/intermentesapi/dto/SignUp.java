@@ -21,4 +21,5 @@ public class SignUp {
 
     private String cpf;
 
+    private String crp;
 }

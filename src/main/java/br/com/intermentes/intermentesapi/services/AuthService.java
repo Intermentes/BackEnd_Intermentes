@@ -23,6 +23,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserModelRepository userModelRepository;
     private final PasswordEncoder passwordEncoder;
+    private final ProfessionalService professionalService;
+    private final PatientService patientService;
 
     public JwtAuthResponse login(LoginRequest request) {
         authenticationManager.authenticate(
@@ -34,7 +36,7 @@ public class AuthService {
     }
 
     public UserResponse signUp(SignUp signUp) {
-        return new UserResponse(this.userModelRepository.save(
+        UserModel user = this.userModelRepository.save(
                 UserModel.builder()
                         .email(signUp.getEmail())
                         .password(passwordEncoder.encode(signUp.getPassword()))
@@ -44,7 +46,14 @@ public class AuthService {
                         .phone(signUp.getPhone())
                         .cpf(signUp.getCpf())
                         .build()
-        ));
+        );
+        UserResponse userResponse = new UserResponse(user);
+        if (signUp.getCrp() != null) {
+            professionalService.save(signUp, user);
+        } else {
+            patientService.save(user);
+        }
+        return userResponse;
     }
 
 
