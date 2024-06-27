@@ -57,6 +57,35 @@ public class AuthService {
     }
 
 
+    public UserResponse getUserById(Long id) {
+        UserModel user = userModelRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+        return new UserResponse(user);
+    }
+
+    public UserResponse updateUser(Long id, SignUp signUp) {
+        UserModel user = userModelRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found."));
+
+        user.setEmail(signUp.getEmail());
+        user.setPassword(passwordEncoder.encode(signUp.getPassword()));
+        user.setBirthDate(LocalDate.parse(signUp.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        user.setEthnicity(signUp.getEthnicity());
+        user.setGender(signUp.getGender());
+        user.setPhone(signUp.getPhone());
+        user.setCpf(signUp.getCpf());
+
+        return new UserResponse(userModelRepository.save(user));
+    }
+
+    public void deleteUser(Long id) {
+        if (!userModelRepository.existsById(id)) {
+            throw new IllegalArgumentException("User not found.");
+        }
+        userModelRepository.deleteById(id);
+    }
+
+
 
 
 
