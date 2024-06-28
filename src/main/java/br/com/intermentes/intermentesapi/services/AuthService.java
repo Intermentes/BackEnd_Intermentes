@@ -7,13 +7,17 @@ import br.com.intermentes.intermentesapi.dto.UserResponse;
 import br.com.intermentes.intermentesapi.model.UserModel;
 import br.com.intermentes.intermentesapi.repositories.UserModelRepository;
 import lombok.AllArgsConstructor;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -86,6 +90,13 @@ public class AuthService {
             throw new IllegalArgumentException("User not found.");
         }
         userModelRepository.deleteById(id);
+    }
+
+    public List<UserResponse> getAllUsers() {
+        List<UserModel> users = userModelRepository.findAll();
+        return users.stream()
+                .map(UserResponse::new)
+                .collect(Collectors.toList());
     }
 
 

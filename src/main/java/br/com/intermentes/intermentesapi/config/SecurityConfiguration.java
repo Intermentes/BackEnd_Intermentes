@@ -34,8 +34,9 @@ public class SecurityConfiguration {
                                         "/auth/**",
                                         "/v3/api-docs/**",
                                         "/swagger-ui/**",
-                                        "/v1/appointments/**"
-
+                                        "/v1/appointments/**",
+                                        "/v1/professionals/**",
+                                        "/v1/patient/**"
                                         )
                                 .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
