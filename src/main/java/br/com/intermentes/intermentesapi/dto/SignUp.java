@@ -2,10 +2,14 @@ package br.com.intermentes.intermentesapi.dto;
 
 import br.com.intermentes.intermentesapi.model.enums.Ethnicity;
 import br.com.intermentes.intermentesapi.model.enums.Gender;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
 public class SignUp {
+
+
+    private String name;
 
     private String email;
 

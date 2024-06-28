@@ -38,6 +38,7 @@ public class AuthService {
     public UserResponse signUp(SignUp signUp) {
         UserModel user = this.userModelRepository.save(
                 UserModel.builder()
+                        .name(signUp.getName())
                         .email(signUp.getEmail())
                         .password(passwordEncoder.encode(signUp.getPassword()))
                         .birthDate(LocalDate.parse(signUp.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")))
@@ -67,6 +68,7 @@ public class AuthService {
         UserModel user = userModelRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found."));
 
+        user.setName(signUp.getName());
         user.setEmail(signUp.getEmail());
         user.setPassword(passwordEncoder.encode(signUp.getPassword()));
         user.setBirthDate(LocalDate.parse(signUp.getBirthDate(), DateTimeFormatter.ofPattern("dd/MM/yyyy")));
@@ -74,6 +76,7 @@ public class AuthService {
         user.setGender(signUp.getGender());
         user.setPhone(signUp.getPhone());
         user.setCpf(signUp.getCpf());
+
 
         return new UserResponse(userModelRepository.save(user));
     }

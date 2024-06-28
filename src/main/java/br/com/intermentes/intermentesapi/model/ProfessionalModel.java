@@ -20,6 +20,7 @@ public class ProfessionalModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserModel user;

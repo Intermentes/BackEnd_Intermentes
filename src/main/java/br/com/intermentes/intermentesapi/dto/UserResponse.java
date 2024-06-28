@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 @Data
 public class UserResponse {
 
+    private String name;
+
     private Long id;
 
     private String email;
@@ -23,7 +25,11 @@ public class UserResponse {
 
     private String phone;
 
+
+
+
     public UserResponse(UserModel userModel){
+        this.name = userModel.getName();
         this.id = userModel.getId();
         this.email = userModel.getEmail();
         this.birthDate = userModel.getBirthDate();

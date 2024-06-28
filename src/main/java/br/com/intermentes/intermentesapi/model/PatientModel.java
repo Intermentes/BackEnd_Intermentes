@@ -20,6 +20,8 @@ public class PatientModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
+
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserModel user;
