@@ -9,4 +9,6 @@ import org.springframework.http.ResponseEntity;
 public class JwtAuthResponse {
     
     private String token;
+    private Long id;
+
 }

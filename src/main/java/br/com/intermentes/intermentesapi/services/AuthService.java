@@ -36,8 +36,8 @@ public class AuthService {
         var user = userModelRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid email or password."));
         var jwt = jwtServices.generateToken(user);
-        return new JwtAuthResponse(jwt);
-    }
+        return new JwtAuthResponse(jwt, user.getId());
+}
 
     public UserResponse signUp(SignUp signUp) {
         UserModel user = this.userModelRepository.save(
